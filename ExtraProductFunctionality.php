@@ -46,13 +46,13 @@ class ExtraProductFunctionality extends Module
 
         $this->submitName = 'submitAddproduct';
 
-        $this->setValuesList();
+        $this->createListOfFields();
     }
 
     /**
      * Sets all the values that this module supports
      */
-    private function setValuesList()
+    private function createListOfFields()
     {
         $this->valuesList = [
             [
@@ -82,6 +82,13 @@ class ExtraProductFunctionality extends Module
                 'key' => 'coming_soon',
                 'default' => 0,
                 'lang' => false,
+                'also_sets' => [ // also_sets are additional things to set on the product.
+                    1 /* when value is this */ => [
+                        /* set all of these */
+                        'show_price' => 0,
+                        'available_for_order' => 0
+                    ]
+                ],
                 'input' => [
                     'type' => 'switch',
                     'label' => $this->l('Coming Soon?'),
@@ -95,6 +102,30 @@ class ExtraProductFunctionality extends Module
                         ],
                         [
                             'id' => 'coming_soon_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'key' => 'new',
+                'setIf' => 1, // Will only write the value to $product if value matches this (override)
+                'default' => 0,
+                'lang' => false,
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Force New (overrides $product->new if set to Yes)'),
+                    'desc' => '',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'new_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'new_off',
                             'value' => 0,
                             'label' => $this->l('No'),
                         ]
@@ -120,6 +151,11 @@ class ExtraProductFunctionality extends Module
 
                 $this->valuesList[$i]['input']['desc'] = '$product->'.$value['key'];
             }
+
+            if (!array_key_exists('also_sets', $value))
+            {
+                $this->valuesList[$i]['also_sets'] = [];
+            }
         }
     }
 
@@ -134,10 +170,18 @@ class ExtraProductFunctionality extends Module
     public function hookActionModifyProductForExtraFunctionality($params)
     {
         $product = $params['product'];
-        if (!isset($product) || !isset($product->id))
+
+        if (!isset($product))
             return;
 
-        $this->modifyProduct($product);
+        $params['product'] = $product = $this->modifyProduct($product);
+
+
+        $useCapture = (array_key_exists('capture', $params)) ? $params['capture'] : false;
+
+        if ($useCapture) {
+            return json_encode($product);
+        }
     }
 
 
@@ -302,27 +346,89 @@ class ExtraProductFunctionality extends Module
      */
     public function modifyProduct($product)
     {
-        $functionality = $this->getExtraFunctionalityForProduct($product->id);
+        $functionality = $this->getExtraFunctionalityForProduct($this->get($product, 'id', 'id_product'));
 
         foreach ($functionality as $key => $value)
         {
-            $product->{$key} = $value;
+            $cfg = $this->getConfigForValue($key);
+
+            $canSet = true;
+
+            if (!is_null($cfg)) {
+                if (array_key_exists('setIf', $cfg)) {
+                    $canSet = ($value == $cfg['setIf']);
+                }
+            }
+
+            if ($canSet) {
+                $product = $this->set($product, $key, $value);
+
+                foreach ($cfg['also_sets'] as $valueToCheck => $thingsToSet)
+                {
+                    if ($value == $valueToCheck) {
+                        foreach ($thingsToSet as $keyToSet => $valueToSet) {
+                            $product = $this->set($product, $keyToSet, $valueToSet);
+                        }
+                    }
+                }
+            }
         }
+
+        return $product;
+    }
+
+    /**
+     * Returns the config for a value
+     */
+    public function getConfigForValue($key)
+    {
+        foreach ($this->valuesList as $value) {
+            if ($value['key'] == $key)
+                return $value;
+        }
+
+        return null;
     }
 
 
     /**
      * Generate a unique input name to not clash with anything else
      */
-    private function toInputName($key, $lang=false)
+    private function toInputName($key, $useLanguage=false)
     {
         $prefix = 'apf_';
-        $suffix = ($lang) ? '_' . $lang['id_lang'] : '';
+        $suffix = ($useLanguage) ? '_' . $lang['id_lang'] : '';
 
         if (substr($key, 0, strlen($prefix)) == $prefix)
             return $key.$suffix;
 
         return $prefix.$key.$suffix;
+    }
+
+
+
+    private function get($product, $key, $arrayKey = null)
+    {
+        if (is_null($arrayKey))
+            $arrayKey = $key;
+
+        if (is_object($product))
+            return $product->{$key};
+
+        return $product[$arrayKey];
+    }
+
+    private function set($product, $key, $value)
+    {
+        if (is_object($product))
+        {
+            $product->{$key} = $value;
+            return $product;
+        }
+        else {
+            $product[$key] = $value;
+        }
+        return $product;
     }
 
 
