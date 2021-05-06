@@ -43,3 +43,9 @@ This is all needed because the `$product` in this part is not a class like in th
 For some reason something won't let you modify those from inside the module (like how the module can directly modify `$product` in the `product.tpl` file).
 
 So we have to re-assign the `$product` variable after deserializing it.
+
+
+## Database
+This module does not modify any table, it creates a new one that is used to store functionality by this module.
+
+For future compatibility (and not having to add new rows to tables as this expands) the data for each product (which functionality is set for it) are stored as a serialized array. This means items can be added to that as this module grows without effecting the table structure or reinstalling the module.
