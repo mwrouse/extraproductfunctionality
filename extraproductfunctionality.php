@@ -132,6 +132,37 @@ class ExtraProductFunctionality extends Module
                         ]
                     ]
                 ]
+            ],
+            [
+                'key' => 'discontinued',
+                'default' => 0,
+                'lang' => false,
+                'also_sets' => [ // also_sets are additional things to set on the product.
+                    1 /* when value is this */ => [
+                        /* set all of these */
+                        'show_price' => 0,
+                        'available_for_order' => 0,
+                        'new' => 0,
+                    ]
+                ],
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Discontinued'),
+                    'desc' => '',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'discontinued_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'discontinued_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
             ]
         ];
 
