@@ -1,12 +1,12 @@
-module_name: ExtraProductVideos
+module_name: ExtraProductFunctionality
 compatible_versions: 1.0.0+
 author: Michael Rouse
 category: front office
 tags:
   - product
   - features
-  - extraproductfeatures
-description_short: Add extra features to your products
+  - extraproductfunctionality
+description_short: Add extra functionality to your products
 description: description.md
 license: MIT
 php_version:

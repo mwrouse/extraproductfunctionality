@@ -1,1 +1,1 @@
-Add extra features to your products
+Add extra functionality to your products

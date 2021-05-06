@@ -5,16 +5,16 @@ if (!defined('_TB_VERSION_')) {
 }
 
 /**
- * Extra Product Features
+ * Extra Product Functionality
  */
-class ExtraProductFeatures extends Module
+class ExtraProductFunctionality extends Module
 {
      /* @var boolean error */
      protected $hooksList = [];
 
     public function __construct()
     {
-        $this->name = 'extraproductfeatures';
+        $this->name = 'extraproductfunctionality';
         $this->tab = 'front_office_features';
         $this->version = '1.0.1';
         $this->author = 'Michael Rouse';
@@ -24,18 +24,18 @@ class ExtraProductFeatures extends Module
         $this->ps_versions_compliancy = ['min' => '1.6', 'max' => '1.6.99.99'];
 
         $this->need_instance = 0;
-        $this->table_name = 'extraproductfeatures';
+        $this->table_name = 'extraproductfunctionality';
         $this->bootstrap = true;
 
         $this->hookList = [
-            'actionModifyProductIfAService',
+            'actionModifyProductWithExtraFunctionality',
             'displayAdminProductsExtra',
             'actionProductUpdate'
         ];
 
         parent::__construct();
 
-        $this->displayName = $this->l('Extra Product Features');
-        $this->description = $this->l('Add extra features to your products');
+        $this->displayName = $this->l('Extra Product Functionality');
+        $this->description = $this->l('Add extra functionality to your products');
     }
 }
