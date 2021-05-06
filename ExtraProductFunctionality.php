@@ -86,7 +86,8 @@ class ExtraProductFunctionality extends Module
                     1 /* when value is this */ => [
                         /* set all of these */
                         'show_price' => 0,
-                        'available_for_order' => 0
+                        'available_for_order' => 0,
+                        'new' => 0,
                     ]
                 ],
                 'input' => [
