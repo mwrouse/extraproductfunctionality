@@ -1,6 +1,7 @@
 # Extra Product Functionality
 ThirtyBees module to add extra variables to a product
 
+![Image of product tab](img/productTab.png)
 
 ## How To use
 Once you install this module you will see a new tab in the product page (when editing a product).
