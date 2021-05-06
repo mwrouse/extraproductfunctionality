@@ -363,11 +363,14 @@ class ExtraProductFunctionality extends Module
             if ($canSet) {
                 $product = $this->set($product, $key, $value);
 
-                foreach ($cfg['also_sets'] as $valueToCheck => $thingsToSet)
+                if (array_key_exists('also_sets', $cfg))
                 {
-                    if ($value == $valueToCheck) {
-                        foreach ($thingsToSet as $keyToSet => $valueToSet) {
-                            $product = $this->set($product, $keyToSet, $valueToSet);
+                    foreach ($cfg['also_sets'] as $valueToCheck => $thingsToSet)
+                    {
+                        if ($value == $valueToCheck) {
+                            foreach ($thingsToSet as $keyToSet => $valueToSet) {
+                                $product = $this->set($product, $keyToSet, $valueToSet);
+                            }
                         }
                     }
                 }
