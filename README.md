@@ -36,10 +36,10 @@ At the top of your theme's `product-list-item.tpl` file (depending on your theme
 {capture name="newProduct"}
     {hook h='actionModifyProductForExtraFunctionality' product=$product capture=true}
 {/capture}
-{assign var="product" value=json_decode($smarty.capture.newProduct, true)}
+{assign var="product" value=unserialize($smarty.capture.newProduct)}
 ```
 This is all needed because the `$product` in this part is not a class like in the `product.tpl` file, it's an associative array.
 
 For some reason something won't let you modify those from inside the module (like how the module can directly modify `$product` in the `product.tpl` file).
 
-So we have to re-assign the `$product` variable after decoding it from JSON.
+So we have to re-assign the `$product` variable after deserializing it.

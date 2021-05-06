@@ -180,7 +180,7 @@ class ExtraProductFunctionality extends Module
         $useCapture = (array_key_exists('capture', $params)) ? $params['capture'] : false;
 
         if ($useCapture) {
-            return json_encode($product);
+            return serialize($product);
         }
     }
 
@@ -275,7 +275,7 @@ class ExtraProductFunctionality extends Module
             {
                 $doesExist = Db::getInstance()->getValue('SELECT * FROM '._DB_PREFIX_.$this->table_name.' WHERE (`id_product`='.$productId.')');
 
-                $data = json_encode($inputs);
+                $data = serialize($inputs);
 
                 if ($doesExist)
                 {
@@ -308,7 +308,7 @@ class ExtraProductFunctionality extends Module
                 return $this->setDefaultValues([]);
             }
 
-            $final = json_decode($result, $flags = JSON_OBJECT_AS_ARRAY);
+            $final = unserialize($result);
 
             if (!is_array($final))
                 return $this->setDefaultValues([]);
