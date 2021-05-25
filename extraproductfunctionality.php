@@ -163,6 +163,30 @@ class ExtraProductFunctionality extends Module
                         ]
                     ]
                 ]
+            ],
+            [
+                'key' => 'hide_comments',
+                'default' => 0,
+                'lang' => false,
+                'also_sets' => [],
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Hide Comments/Reviews'),
+                    'desc' => '',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'hide_comments_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'hide_comments_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
             ]
         ];
 
