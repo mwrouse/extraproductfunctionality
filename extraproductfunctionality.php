@@ -187,6 +187,30 @@ class ExtraProductFunctionality extends Module
                         ]
                     ]
                 ]
+            ],
+            [
+                'key' => 'hide_all_images',
+                'default' => 0,
+                'lang' => false,
+                'also_sets' => [],
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Hide All Images (Use for colors/textures)'),
+                    'desc' => 'Useful for hiding images when each image is a different combination (color/texture)',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'hide_all_images_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'hide_all_images_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
             ]
         ];
 
