@@ -211,6 +211,34 @@ class ExtraProductFunctionality extends Module
                         ]
                     ]
                 ]
+            ],
+            [
+                'key' => 'force_oos',
+                'default' => 0,
+                'lang' => false,
+                'also_sets' => [
+                    1 => [
+                        'quantity' => 0,
+                    ]
+                ],
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Force Out of Stock'),
+                    'desc' => 'Mark a product as out of stock, and disable out of stock ordering, even if you have available inventory',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'force_oos_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'force_oos_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
             ]
         ];
 
