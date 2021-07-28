@@ -239,6 +239,58 @@ class ExtraProductFunctionality extends Module
                         ]
                     ]
                 ]
+            ],
+            [
+                'key' => 'enable_sold_elsewhere',
+                'default' => 0,
+                'lang' => false,
+                'also_sets' => [
+                    1  => [
+                        'show_price' => 0,
+                        'available_for_order' => 0,
+                        'new' => 0,
+                    ]
+                ],
+                'input' => [
+                    'type' => 'switch',
+                    'label' => $this->l('Enable Sold Elsewhere'),
+                    'desc' => 'Mark a product as only available on an external site',
+                    'lang' => true,
+                    'values' => [
+                        [
+                            'id' => 'enable_sold_elsewhere_on',
+                            'value' => 1,
+                            'label' => $this->l('Yes'),
+                        ],
+                        [
+                            'id' => 'enable_sold_elsewhere_off',
+                            'value' => 0,
+                            'label' => $this->l('No'),
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'key' => 'sold_elsewhere_text',
+                'default' => 0,
+                'lang' => false,
+                'input' => [
+                    'type' => 'text',
+                    'label' => $this->l('Sold Elsewhere Text'),
+                    'desc' => 'Text for the Sold Elsewhere button',
+                    'lang' => true,
+                ]
+            ],
+            [
+                'key' => 'sold_elsewhere_link',
+                'default' => 0,
+                'lang' => false,
+                'input' => [
+                    'type' => 'text',
+                    'label' => $this->l('Sold Elsewhere Link'),
+                    'desc' => 'Link for the Sold Elsewhere button',
+                    'lang' => true,
+                ]
             ]
         ];
 
